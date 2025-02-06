@@ -5,12 +5,20 @@
 			"referenceName": "Snowflake1",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"Schema_Name": {
+				"type": "string"
+			},
+			"Table_Name": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "SnowflakeV2Table",
 		"schema": [],
 		"typeProperties": {
 			"schema": "TEMP_SCHEMA",
-			"table": "TEMP_DB"
+			"table": "PET_LICENSE_STAGE"
 		}
 	}
 }
