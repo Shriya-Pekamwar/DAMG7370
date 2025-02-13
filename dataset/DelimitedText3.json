@@ -5,34 +5,15 @@
 			"referenceName": "AzureDataLakeStorage1",
 			"type": "LinkedServiceReference"
 		},
-		"parameters": {
-			"Directory": {
-				"type": "string",
-				"defaultValue": "na"
-			},
-			"FileName": {
-				"type": "string",
-				"defaultValue": "NYPDArrestData.tsv"
-			},
-			"Delimiter": {
-				"type": "string"
-			}
-		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": {
-					"value": "@dataset().FileName",
-					"type": "Expression"
-				},
+				"fileName": "NYPD_Arrest_Data__Year_to_Date__20250212.tsv",
 				"fileSystem": "bronze"
 			},
-			"columnDelimiter": {
-				"value": "@dataset().Delimiter",
-				"type": "Expression"
-			},
+			"columnDelimiter": "\t",
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
