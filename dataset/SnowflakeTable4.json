@@ -5,12 +5,26 @@
 			"referenceName": "Snowflake2",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"Schema_Name": {
+				"type": "string"
+			},
+			"Table_Name": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "SnowflakeV2Table",
 		"schema": [],
 		"typeProperties": {
-			"schema": "NYPD_Schema",
-			"table": "Arrest_Data_Stage"
+			"schema": {
+				"value": "@dataset().Schema_Name",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().Table_Name",
+				"type": "Expression"
+			}
 		}
 	}
 }
