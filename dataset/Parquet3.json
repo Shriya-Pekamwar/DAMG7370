@@ -10,6 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
+				"fileName": "arrestdata.parquet",
 				"fileSystem": "gold"
 			},
 			"compressionCodec": "snappy"
