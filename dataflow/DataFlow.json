@@ -15,7 +15,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "SnowflakeTable4",
+						"referenceName": "DelimitedText4",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
@@ -120,12 +120,9 @@
 				"     skipDuplicateMapOutputs: false) ~> CleanedTSV",
 				"CleanedTSV sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     deletable:false,",
-				"     insertable:true,",
-				"     updateable:false,",
-				"     upsertable:false,",
-				"     format: 'table',",
-				"     stageInsert: true,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
 				"     mapColumn(",
 				"          ARREST_KEY,",
 				"          ARREST_DATE,",
