@@ -14,6 +14,10 @@
 			],
 			"sinks": [
 				{
+					"dataset": {
+						"referenceName": "SnowflakeTable4",
+						"type": "DatasetReference"
+					},
 					"name": "sink1"
 				}
 			],
@@ -22,12 +26,12 @@
 					"name": "derivedColumn1"
 				},
 				{
-					"name": "RequiredColumns"
+					"name": "CleanedTSV"
 				}
 			],
 			"scriptLines": [
 				"parameters{",
-				"     parameter1 as string",
+				"     DI_Job_ID as string (\"10\")",
 				"}",
 				"source(output(",
 				"          ARREST_KEY as integer,",
@@ -87,7 +91,7 @@
 				"          PD_DESC = iif(PD_DESC == '(null)', 'UNKNOWN', PD_DESC),",
 				"          X_COORD_CD = iif(isNull(X_COORD_CD), 0, X_COORD_CD),",
 				"          Y_COORD_CD = iif(isNull(Y_COORD_CD), 0, Y_COORD_CD),",
-				"          DI_Job_ID = $Job_Id,",
+				"          DI_Job_ID = $DI_Job_ID,",
 				"          DI_Load_DT = currentDate()) ~> derivedColumn1",
 				"derivedColumn1 select(mapColumn(",
 				"          ARREST_KEY,",
@@ -108,14 +112,43 @@
 				"          Y_COORD_CD,",
 				"          Latitude,",
 				"          Longitude,",
-				"          {New Georeferenced Column}",
+				"          {New Georeferenced Column},",
+				"          DI_Job_ID,",
+				"          DI_Load_DT",
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
-				"     skipDuplicateMapOutputs: false) ~> RequiredColumns",
-				"RequiredColumns sink(allowSchemaDrift: true,",
+				"     skipDuplicateMapOutputs: false) ~> CleanedTSV",
+				"CleanedTSV sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     stageInsert: true,",
+				"     mapColumn(",
+				"          ARREST_KEY,",
+				"          ARREST_DATE,",
+				"          PD_CD,",
+				"          PD_DESC,",
+				"          KY_CD,",
+				"          OFNS_DESC,",
+				"          LAW_CODE,",
+				"          LAW_CAT_CD,",
+				"          ARREST_BORO,",
+				"          ARREST_PRECINCT,",
+				"          JURISDICTION_CODE,",
+				"          AGE_GROUP,",
+				"          PERP_SEX,",
+				"          PERP_RACE,",
+				"          X_COORD_CD,",
+				"          Y_COORD_CD,",
+				"          Latitude,",
+				"          Longitude,",
+				"          {New Georeferenced Column},",
+				"          DI_Job_ID,",
+				"          DI_Load_DT",
+				"     )) ~> sink1"
 			]
 		}
 	}
