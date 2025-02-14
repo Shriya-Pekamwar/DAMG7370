@@ -1,0 +1,122 @@
+{
+	"name": "DataFlow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText3",
+						"type": "DatasetReference"
+					},
+					"name": "FileSource"
+				}
+			],
+			"sinks": [
+				{
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "RequiredColumns"
+				}
+			],
+			"scriptLines": [
+				"parameters{",
+				"     parameter1 as string",
+				"}",
+				"source(output(",
+				"          ARREST_KEY as integer,",
+				"          ARREST_DATE as string,",
+				"          PD_CD as short,",
+				"          PD_DESC as string,",
+				"          KY_CD as short,",
+				"          OFNS_DESC as string,",
+				"          LAW_CODE as string,",
+				"          LAW_CAT_CD as string,",
+				"          ARREST_BORO as string,",
+				"          ARREST_PRECINCT as short,",
+				"          JURISDICTION_CODE as short,",
+				"          AGE_GROUP as string,",
+				"          PERP_SEX as string,",
+				"          PERP_RACE as string,",
+				"          X_COORD_CD as integer,",
+				"          Y_COORD_CD as integer,",
+				"          Latitude as double,",
+				"          Longitude as double,",
+				"          {New Georeferenced Column} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> FileSource",
+				"FileSource derive(LAW_CAT_CD = case(\r",
+				"    isNull(LAW_CAT_CD), 'UNKNOWN',\r",
+				"    LAW_CAT_CD == 'F', 'F',\r",
+				"    LAW_CAT_CD == 'M', 'M',\r",
+				"    LAW_CAT_CD == 'V', 'V',\r",
+				"    LAW_CAT_CD == 'I', 'I',\r",
+				"    LAW_CAT_CD == '9', '9',\r",
+				"    LAW_CAT_CD == 'V', 'V',\r",
+				"    'UNKNOWN'\r",
+				"),",
+				"          PD_CD = case(\r",
+				"    isNull(PD_CD), '0',\r",
+				"    length(toString(PD_CD)) < 3, lpad(toString(PD_CD), 3, '0'),\r",
+				"    toString(PD_CD)\r",
+				")\r",
+				",",
+				"          LAW_CODE = case(isNull(LAW_CODE), 'UNKNOWN', trim(upper(LAW_CODE))),",
+				"          OFNS_DESC = iif(LAW_CAT_CD == '9' || LAW_CAT_CD == 'I' || OFNS_DESC == '(null)' || OFNS_DESC == 'null', 'UNKNOWN', OFNS_DESC),",
+				"          AGE_GROUP = case(\r",
+				"    rlike(AGE_GROUP, '^\\\\d+(-\\\\d+)?\\\\+?$'), AGE_GROUP,\r",
+				"    isNull(AGE_GROUP), 'UNKNOWN',\r",
+				"    'INVALID'\r",
+				"),",
+				"          KY_CD = case(\r",
+				"    isNull(PD_CD), '0',\r",
+				"    length(toString(KY_CD)) < 3, lpad(toString(PD_CD), 3, '0'),\r",
+				"    toString(PD_CD)\r",
+				"),",
+				"          ARREST_DATE = toDate(ARREST_DATE, 'MM/dd/yyyy'),",
+				"          PERP_SEX = iif(isNull(PERP_SEX), 'NA', upper(PERP_SEX)),",
+				"          PERP_RACE = iif(isNull(PERP_RACE), 'UNKNOWN', upper(PERP_RACE)),",
+				"          PD_DESC = iif(PD_DESC == '(null)', 'UNKNOWN', PD_DESC),",
+				"          X_COORD_CD = iif(isNull(X_COORD_CD), 0, X_COORD_CD),",
+				"          Y_COORD_CD = iif(isNull(Y_COORD_CD), 0, Y_COORD_CD),",
+				"          DI_Job_ID = $Job_Id,",
+				"          DI_Load_DT = currentDate()) ~> derivedColumn1",
+				"derivedColumn1 select(mapColumn(",
+				"          ARREST_KEY,",
+				"          ARREST_DATE,",
+				"          PD_CD,",
+				"          PD_DESC,",
+				"          KY_CD,",
+				"          OFNS_DESC,",
+				"          LAW_CODE,",
+				"          LAW_CAT_CD,",
+				"          ARREST_BORO,",
+				"          ARREST_PRECINCT,",
+				"          JURISDICTION_CODE,",
+				"          AGE_GROUP,",
+				"          PERP_SEX,",
+				"          PERP_RACE,",
+				"          X_COORD_CD,",
+				"          Y_COORD_CD,",
+				"          Latitude,",
+				"          Longitude,",
+				"          {New Georeferenced Column}",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> RequiredColumns",
+				"RequiredColumns sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}
