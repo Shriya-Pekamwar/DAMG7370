@@ -5,6 +5,8 @@
 			{
 				"name": "StageDataFlow",
 				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.00:30:00",
@@ -20,6 +22,35 @@
 						"type": "DataFlowReference",
 						"parameters": {
 							"Job_ID": "\"10\"\r\n"
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Coarse"
+				}
+			},
+			{
+				"name": "LoadBreedDim",
+				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.00:30:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "LoadBreedDim",
+						"type": "DataFlowReference",
+						"parameters": {
+							"DI_JOB_ID": "\"59\""
 						}
 					},
 					"compute": {
