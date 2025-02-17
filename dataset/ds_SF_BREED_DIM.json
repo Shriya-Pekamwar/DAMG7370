@@ -1,0 +1,16 @@
+{
+	"name": "ds_SF_BREED_DIM",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Snowflake1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SnowflakeV2Table",
+		"schema": [],
+		"typeProperties": {
+			"schema": "TEMP_SCHEMA",
+			"table": "BREED_DIM"
+		}
+	}
+}
