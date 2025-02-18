@@ -185,7 +185,7 @@
 				"     mapColumn(",
 				"          LOCATION_ID,",
 				"          BREED_ID,",
-				"          ISSUED_DATE_ID = DATE_SK,",
+				"          ISSUED_DATE_ID = ISSUED_DATE_DT,",
 				"          PET_LICENSE_SK = PET_LIC_SK,",
 				"          DI_JOB_ID,",
 				"          DI_CREATED_DT",
