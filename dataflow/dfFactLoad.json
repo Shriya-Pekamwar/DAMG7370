@@ -176,10 +176,10 @@
 				"     skipDuplicateMapOutputs: true,",
 				"     stageInsert: true,",
 				"     mapColumn(",
-				"          LOCATION_SK,",
-				"          BREED_SK,",
-				"          DATE_SK,",
-				"          PET_LIC_SK",
+				"          LOCATION_ID = LOCATION_SK,",
+				"          BREED_ID = BREED_SK,",
+				"          DATE_ID = DATE_SK,",
+				"          PET_LICENSE_SK = PET_LIC_SK",
 				"     )) ~> sink1"
 			]
 		}
