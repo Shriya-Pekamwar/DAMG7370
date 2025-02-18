@@ -66,7 +66,7 @@
 					"name": "join1"
 				},
 				{
-					"name": "aggregate1"
+					"name": "select1"
 				}
 			],
 			"scriptLines": [
@@ -153,7 +153,7 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> joinDateDim",
-				"aggregate1 keyGenerate(output(PET_LIC_SK as long),",
+				"select1 keyGenerate(output(PET_LIC_SK as long),",
 				"     startAt: 1L,",
 				"     stepValue: 1L) ~> surrogateKey1",
 				"joinDateDim, FactMaxID join(1 == 1,",
@@ -161,10 +161,16 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join1",
-				"join1 aggregate(groupBy(LOCATION_SK,",
-				"          BREED_SK,",
-				"          DATE_SK),",
-				"     Count_Row = count({LICENSE_NUMBER})) ~> aggregate1",
+				"join1 select(mapColumn(",
+				"          DI_JOB_ID = sourceStage@DI_JOB_ID,",
+				"          DI_CREATED_DT = sourceStage@DI_LOAD_DT,",
+				"          LOCATION_ID = LOCATION_SK,",
+				"          BREED_ID = BREED_SK,",
+				"          ISSUED_DATE_DT = DT,",
+				"          PET_LICENSE_SK = PET_LIC_SK",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
 				"surrogateKey1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
@@ -177,10 +183,12 @@
 				"     skipDuplicateMapOutputs: true,",
 				"     stageInsert: true,",
 				"     mapColumn(",
-				"          LOCATION_ID = LOCATION_SK,",
-				"          BREED_ID = BREED_SK,",
+				"          LOCATION_ID,",
+				"          BREED_ID,",
 				"          ISSUED_DATE_ID = DATE_SK,",
-				"          PET_LICENSE_SK = PET_LIC_SK",
+				"          PET_LICENSE_SK = PET_LIC_SK,",
+				"          DI_JOB_ID,",
+				"          DI_CREATED_DT",
 				"     )) ~> sink1"
 			]
 		}
