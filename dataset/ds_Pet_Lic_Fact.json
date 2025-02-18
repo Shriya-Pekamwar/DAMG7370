@@ -1,0 +1,16 @@
+{
+	"name": "ds_Pet_Lic_Fact",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Snowflake1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SnowflakeV2Table",
+		"schema": [],
+		"typeProperties": {
+			"schema": "TEMP_SCHEMA",
+			"table": "PET_LIC_FACT"
+		}
+	}
+}
