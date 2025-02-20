@@ -237,13 +237,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "Parquet5",
+						"referenceName": "AlteryxCleanArresrParquet",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "SnowflakeTable4",
+						"referenceName": "SF_ArrestDataStage",
 						"type": "DatasetReference"
 					}
 				]
