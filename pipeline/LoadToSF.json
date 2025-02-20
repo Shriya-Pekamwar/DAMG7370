@@ -1,10 +1,12 @@
 {
-	"name": "pipeline1",
+	"name": "LoadToSF",
 	"properties": {
 		"activities": [
 			{
 				"name": "Copy data1",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.00:30:00",
@@ -28,12 +30,6 @@
 							"type": "ParquetReadSettings"
 						}
 					},
-					"sink": {
-						"type": "SnowflakeV2Sink",
-						"importSettings": {
-							"type": "SnowflakeImportCopyCommand"
-						}
-					},
 					"enableStaging": true,
 					"stagingSettings": {
 						"linkedServiceName": {
@@ -51,13 +47,34 @@
 							"Filename": "arrestdata.parquet"
 						}
 					}
-				],
-				"outputs": [
-					{
-						"referenceName": "SnowflakeTable4",
-						"type": "DatasetReference"
-					}
 				]
+			},
+			{
+				"name": "LoadSF",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.00:30:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "LoadCleanArrestData",
+						"type": "DataFlowReference",
+						"parameters": {
+							"DI_Job_ID": "\"10\""
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Coarse"
+				}
 			}
 		],
 		"parameters": {
