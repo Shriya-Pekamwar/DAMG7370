@@ -1,5 +1,5 @@
 {
-	"name": "Parquet5",
+	"name": "AlteryxCleanArresrParquet",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage_LS",
