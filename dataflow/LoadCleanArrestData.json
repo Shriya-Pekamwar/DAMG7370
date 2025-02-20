@@ -1,5 +1,5 @@
 {
-	"name": "DataFlow",
+	"name": "LoadCleanArrestData",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -15,7 +15,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "Parquet4",
+						"referenceName": "SF_ArrestDataStage",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
@@ -71,8 +71,7 @@
 				"    isNull(PD_CD), '0',\r",
 				"    length(toString(PD_CD)) < 3, lpad(toString(PD_CD), 3, '0'),\r",
 				"    toString(PD_CD)\r",
-				")\r",
-				",",
+				"),",
 				"          LAW_CODE = case(isNull(LAW_CODE), 'UNKNOWN', trim(upper(LAW_CODE))),",
 				"          OFNS_DESC = iif(LAW_CAT_CD == '9' || LAW_CAT_CD == 'I' || OFNS_DESC == '(null)' || OFNS_DESC == 'null', 'UNKNOWN', OFNS_DESC),",
 				"          AGE_GROUP = case(\r",
@@ -120,8 +119,11 @@
 				"     skipDuplicateMapOutputs: false) ~> CleanedTSV",
 				"CleanedTSV sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     format: 'parquet',",
-				"     umask: 0022,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
 				"     preCommands: [],",
 				"     postCommands: []) ~> sink1"
 			]
