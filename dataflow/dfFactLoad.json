@@ -27,7 +27,7 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "ds_SF_DATE_DIM",
+						"referenceName": "SnowflakeTable4",
 						"type": "DatasetReference"
 					},
 					"name": "sourceDateDim"
@@ -71,7 +71,6 @@
 			],
 			"scriptLines": [
 				"source(output(",
-				"          LICENSE_ISSUE_DATE as string,",
 				"          LICENSE_NUMBER as string,",
 				"          ANIMAL_NAME as string,",
 				"          SPECIES as string,",
@@ -79,7 +78,8 @@
 				"          SECONDARY_BREED as string,",
 				"          ZIP_CODE as string,",
 				"          DI_JOB_ID as string,",
-				"          DI_LOAD_DT as date",
+				"          DI_LOAD_DT as date,",
+				"          LICENSE_ISSUE_DATE as date",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
@@ -118,9 +118,7 @@
 				"          YEAR_NUM as decimal(4,0),",
 				"          MONTH_NUM as decimal(2,0),",
 				"          DAY_NUM as decimal(2,0),",
-				"          DATE_SK as decimal(38,0),",
-				"          DI_CREATED_ID as timestamp,",
-				"          DI_JOB_ID as string",
+				"          DATE_SK as decimal(38,0)",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
@@ -144,7 +142,7 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> joinBreedDim",
-				"joinBreedDim, sourceDateDim join(toDate({LICENSE_ISSUE_DATE}, 'MMMM DD YYYY') == DT,",
+				"joinBreedDim, sourceDateDim join(LICENSE_ISSUE_DATE == DT,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
