@@ -65,9 +65,7 @@
 				"          YEAR_NUM,",
 				"          MONTH_NUM,",
 				"          DAY_NUM,",
-				"          DATE_SK,",
-				"          DI_CREATED_ID,",
-				"          DI_JOB_ID",
+				"          DATE_SK",
 				"     )) ~> sinkDateDim"
 			]
 		}
