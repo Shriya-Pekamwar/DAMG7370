@@ -34,6 +34,8 @@
 			{
 				"name": "LoadBreedDim",
 				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "StageDataFlow",
@@ -101,8 +103,6 @@
 			{
 				"name": "LoadDateDim",
 				"type": "ExecuteDataFlow",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "LoadLocationDim",
