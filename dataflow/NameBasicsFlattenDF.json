@@ -1,0 +1,85 @@
+{
+	"name": "NameBasicsFlattenDF",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "NameBasicsParquet",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "NameBasicsFlattenSF",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "flatten1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          nconst as string,",
+				"          primaryName as string,",
+				"          birthYear as integer,",
+				"          deathYear as integer,",
+				"          primaryProfession as string,",
+				"          knownForTitles as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> source1",
+				"source1 derive(primaryProfession = split(primaryProfession, ','),",
+				"          knownForTitles = split(knownForTitles, ','),",
+				"          DI_LOAD_DT = currentDate(),",
+				"          DI_JOB_ID = uuid()) ~> derivedColumn1",
+				"derivedColumn1 foldDown(unrollMultiple(primaryProfession,knownForTitles),",
+				"     mapColumn(",
+				"          knownForTitles = knownForTitles,",
+				"          birthYear,",
+				"          deathYear,",
+				"          nconst,",
+				"          primaryName,",
+				"          primaryProfession,",
+				"          DI_LOAD_DT,",
+				"          DI_JOB_ID",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flatten1",
+				"flatten1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     stageInsert: true,",
+				"     mapColumn(",
+				"          KNOWNFORTITLES = knownForTitles,",
+				"          BIRTHYEAR = birthYear,",
+				"          DEATHYEAR = deathYear,",
+				"          NCONST = nconst,",
+				"          PRIMARYNAME = primaryName,",
+				"          PRIMARYPROFESSION = primaryProfession,",
+				"          DI_LOAD_DT,",
+				"          DI_JOB_ID",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}
