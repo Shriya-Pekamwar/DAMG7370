@@ -1,0 +1,45 @@
+{
+	"name": "NameBasicsParquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Name.Basics_P.parquet",
+				"container": "gold"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "nconst",
+				"type": "UTF8"
+			},
+			{
+				"name": "primaryName",
+				"type": "UTF8"
+			},
+			{
+				"name": "birthYear",
+				"type": "INT32"
+			},
+			{
+				"name": "deathYear",
+				"type": "INT32"
+			},
+			{
+				"name": "primaryProfession",
+				"type": "UTF8"
+			},
+			{
+				"name": "knownForTitles",
+				"type": "UTF8"
+			}
+		]
+	}
+}
