@@ -1,0 +1,16 @@
+{
+	"name": "NameBasicsStageSF",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Snowflake3",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SnowflakeTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "IMDB_SCHEMA",
+			"table": "NAME_BASICS_STAGE"
+		}
+	}
+}
