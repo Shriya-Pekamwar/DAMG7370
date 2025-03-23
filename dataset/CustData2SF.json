@@ -1,0 +1,31 @@
+{
+	"name": "CustData2SF",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Snowflake1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SnowflakeV2Table",
+		"schema": [
+			{
+				"name": "CUSTOMERID",
+				"type": "NUMBER",
+				"precision": 38,
+				"scale": 0
+			},
+			{
+				"name": "CUSTOMERNAME",
+				"type": "VARCHAR"
+			},
+			{
+				"name": "BILLTO",
+				"type": "VARCHAR"
+			}
+		],
+		"typeProperties": {
+			"schema": "TEMP_SCHEMA",
+			"table": "STG_CUSTOMER_DATA_PART2"
+		}
+	}
+}
