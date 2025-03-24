@@ -89,7 +89,7 @@
 				"split1@UnMatchedRows derive(Cust_SK = -1,",
 				"          CUSTOMER_NAME = 'UNKNOWN',",
 				"          DI_CREATED_DT = currentDate(),",
-				"          PID = uuid(),",
+				"          PID = 'InitialLoad',",
 				"          CUSTOMER_ID = toInteger(0)) ~> derivedColumn1",
 				"split1@MatchedRows sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
