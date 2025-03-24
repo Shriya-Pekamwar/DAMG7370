@@ -33,6 +33,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "sink2"
+				},
+				{
+					"dataset": {
+						"referenceName": "Fact_InvoiceSF",
+						"type": "DatasetReference"
+					},
+					"name": "sink3"
 				}
 			],
 			"transformations": [
@@ -137,7 +144,37 @@
 				"          CUSTOMER_NAME,",
 				"          DI_CREATED_DT,",
 				"          PID",
-				"     )) ~> sink2"
+				"     )) ~> sink2",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          INVOICE_SK as decimal(38,0),",
+				"          INVOICE_ID as decimal(38,0),",
+				"          CUSTOMER_ID as decimal(38,0),",
+				"          INVOICE_DT as date,",
+				"          TOTAL_PRODUCT_CNT as decimal(38,0),",
+				"          TOTAL_PRODUCT_COST as double,",
+				"          DI_CREATED_DT as timestamp,",
+				"          PID as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     stageInsert: true,",
+				"     mapColumn(",
+				"          INVOICE_SK = Cust_SK,",
+				"          INVOICE_ID = invoiceId,",
+				"          CUSTOMER_ID,",
+				"          INVOICE_DT = invoiceDate,",
+				"          TOTAL_PRODUCT_CNT = total_product_cnt,",
+				"          TOTAL_PRODUCT_COST = Total,",
+				"          DI_CREATED_DT,",
+				"          PID",
+				"     )) ~> sink3"
 			]
 		}
 	}
