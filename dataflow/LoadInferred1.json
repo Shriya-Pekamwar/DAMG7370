@@ -47,6 +47,9 @@
 				},
 				{
 					"name": "derivedColumn2"
+				},
+				{
+					"name": "surrogateKey1"
 				}
 			],
 			"scriptLines": [
@@ -87,8 +90,11 @@
 				"          DI_CREATED_DT = currentDate(),",
 				"          PID = 'InitialLoad',",
 				"          CUSTOMER_ID = toInteger(0)) ~> derivedColumn1",
-				"split1@MatchedRows derive(PID = 'InitialLoad',",
+				"surrogateKey1 derive(PID = 'InitialLoad',",
 				"          DI_CREATED_DT = currentDate()) ~> derivedColumn2",
+				"split1@MatchedRows keyGenerate(output(InvoiceSK as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> surrogateKey1",
 				"derivedColumn2 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
@@ -110,7 +116,7 @@
 				"     skipDuplicateMapOutputs: true,",
 				"     stageInsert: true,",
 				"     mapColumn(",
-				"          INVOICE_SK = CUSTOMER_SK,",
+				"          INVOICE_SK = InvoiceSK,",
 				"          INVOICE_ID = invoiceId,",
 				"          CUSTOMER_ID,",
 				"          INVOICE_DT = invoiceDate,",
