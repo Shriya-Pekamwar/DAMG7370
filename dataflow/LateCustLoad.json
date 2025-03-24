@@ -1,5 +1,5 @@
 {
-	"name": "dataflow1",
+	"name": "LateCustLoad",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -95,7 +95,7 @@
 				"     broadcast: 'auto')~> SourceDataWithSK",
 				"surrogateKey1 derive(CUSTOMER_SK = MAXCUSTSK + RowNum,",
 				"          DI_LOAD_DT = currentDate(),",
-				"          DI_JOB_ID = uuid()) ~> derivedColumn1",
+				"          DI_JOB_ID = 'LateArrival') ~> derivedColumn1",
 				"derivedColumn1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
