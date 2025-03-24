@@ -117,7 +117,7 @@
 				"     mapColumn(",
 				"          INVOICE_SK = InvoiceSK,",
 				"          INVOICE_ID = invoiceId,",
-				"          CUSTOMER_ID,",
+				"          CUSTOMER_ID = customerid,",
 				"          INVOICE_DT = invoiceDate,",
 				"          TOTAL_PRODUCT_CNT = total_product_cnt,",
 				"          TOTAL_PRODUCT_COST = Total,",
