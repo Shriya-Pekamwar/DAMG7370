@@ -13,7 +13,7 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "DimCustomerSF",
+						"referenceName": "CustomerDimSF",
 						"type": "DatasetReference"
 					},
 					"name": "source2"
@@ -112,7 +112,6 @@
 				"     insertable:true,",
 				"     updateable:false,",
 				"     upsertable:false,",
-				"     truncate:true,",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
