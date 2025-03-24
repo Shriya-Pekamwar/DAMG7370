@@ -42,7 +42,7 @@
 				"     startAt: 1L,",
 				"     stepValue: 1L) ~> surrogateKey1",
 				"surrogateKey1 derive(DI_LOAD_DT = currentDate(),",
-				"          DI_JOB_ID = uuid()) ~> derivedColumn1",
+				"          DI_JOB_ID = 'InitialLoad') ~> derivedColumn1",
 				"derivedColumn1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
