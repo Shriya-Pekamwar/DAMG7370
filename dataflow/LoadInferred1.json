@@ -51,6 +51,9 @@
 				},
 				{
 					"name": "derivedColumn1"
+				},
+				{
+					"name": "derivedColumn2"
 				}
 			],
 			"scriptLines": [
@@ -91,7 +94,9 @@
 				"          DI_CREATED_DT = currentDate(),",
 				"          PID = 'InitialLoad',",
 				"          CUSTOMER_ID = toInteger(0)) ~> derivedColumn1",
-				"split1@MatchedRows sink(allowSchemaDrift: true,",
+				"split1@MatchedRows derive(PID = 'InitialLoad',",
+				"          DI_CREATED_DT = currentDate()) ~> derivedColumn2",
+				"derivedColumn2 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          INVOICE_SK as decimal(38,0),",
