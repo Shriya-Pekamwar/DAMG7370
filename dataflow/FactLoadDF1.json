@@ -69,7 +69,17 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     stageInsert: true) ~> sink1"
+				"     stageInsert: true,",
+				"     mapColumn(",
+				"          INVOICE_SK = Invoice_Sk,",
+				"          INVOICE_ID = invoiceId,",
+				"          CUSTOMER_ID = customerid,",
+				"          INVOICE_DT = invoiceDate,",
+				"          TOTAL_PRODUCT_CNT = total_product_cnt,",
+				"          TOTAL_PRODUCT_COST = Total,",
+				"          DI_CREATED_DT = DI_LOAD_DT,",
+				"          PID",
+				"     )) ~> sink1"
 			]
 		}
 	}
