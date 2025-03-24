@@ -67,7 +67,7 @@
 				"surrogateKey1 derive(DI_LOAD_DT = currentDate(),",
 				"          PID = 'LateArrival',",
 				"          Start_SK = iif(isNull(MAXCUSTSK), 1, toInteger(MAXCUSTSK + 1))) ~> derivedColumn1",
-				"derivedColumn2 alterRow(upsertIf(CUSTOMERID == -1)) ~> alterRow1",
+				"derivedColumn2 alterRow(upsertIf(Customer_SK == -1)) ~> alterRow1",
 				"source1, DimCustMaxID join(1 == 1,",
 				"     joinType:'cross',",
 				"     matchType:'exact',",
