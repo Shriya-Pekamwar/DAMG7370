@@ -15,7 +15,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "CustDim1",
+						"referenceName": "CustomerDimSF",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
